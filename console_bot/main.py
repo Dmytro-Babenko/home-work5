@@ -16,6 +16,7 @@ OPERATIONS = {
 
 COMMAND_WORDS = '|'.join(OPERATIONS)
 
+
 def parser(message: str) -> tuple[str|None, str|None, str|None]:
     '''
     Parse message to command, name and number.
@@ -24,25 +25,26 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
     old_namber: didgits before new number after space
     name: all symbols between command and number
     '''
-    command, name, old_number, new_number = '', '', '', ''
+    def pharse_number(message: str) -> tuple[str, str]:
+        number = ''
+        message = message.strip()
+        number_match = re.search(fr' (\d+)$', message)
+        if number_match:
+            number = number_match.group(1).strip()
+            message = re.sub(number, '', message)
+        return message, number
+    
+    command = ''
     message = message.strip()
     command_match = re.search(fr'^{COMMAND_WORDS}', message, re.IGNORECASE)
+
     if command_match:
         command = command_match.group()
         message = re.sub(command, '', message)
         command = command.lower()
 
-    message = message.strip()
-    new_number_match = re.search(fr' (\d+)$', message)
-    if new_number_match:
-        new_number = new_number_match.group(1).strip()
-        message = re.sub(new_number, '', message)
-
-    message = message.strip()
-    old_number_match = re.search(fr' (\d+)$', message)
-    if old_number_match:
-        old_number = old_number_match.group(1).strip()
-        message = re.sub(old_number, '', message)
+    message, new_number = pharse_number(message)
+    message, old_number = pharse_number(message)
 
     name = message.strip()
     return command, name, new_number, old_number 
