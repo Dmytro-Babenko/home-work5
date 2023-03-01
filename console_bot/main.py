@@ -16,7 +16,6 @@ OPERATIONS = {
 
 COMMAND_WORDS = '|'.join(OPERATIONS)
 
-
 def parser(message: str) -> tuple[str|None, str|None, str|None]:
     '''
     Parse message to command, name and number.
@@ -25,7 +24,8 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
     old_namber: didgits before new number after space
     name: all symbols between command and number
     '''
-    def pharse_number(message: str) -> tuple[str, str]:
+    def get_number(message: str) -> tuple[str, str]:
+        '''Get number as digits at the end'''
         number = ''
         message = message.strip()
         number_match = re.search(fr' (\d+)$', message)
@@ -43,8 +43,8 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
         message = re.sub(command, '', message)
         command = command.lower()
 
-    message, new_number = pharse_number(message)
-    message, old_number = pharse_number(message)
+    message, new_number = get_number(message)
+    message, old_number = get_number(message)
 
     name = message.strip()
     return command, name, new_number, old_number 

@@ -1,6 +1,5 @@
 from classes import Phone, Name, Record, AdressBook, NoNumberInContact
 
-
 def input_error(func):
     '''Decorator that handles errors in the handlers'''
     def inner(*args, **kwargs):
@@ -30,6 +29,8 @@ def adding(name: str, number: str, *_) -> str:
         if not phone.value:
             raise ValueError
         record = address_book.data.get(name)
+        if number in record.get_numbers():
+            raise NameError
         record.add_phone(phone)
         output = f'To contact {name} add new number: {phone.value}'
     else: 
