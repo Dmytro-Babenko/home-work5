@@ -59,10 +59,10 @@ def main():
             print('There are no command')
             continue
         output = hendler(name, new_number, old_number)
+        print(output)
         if output == 'Good bye':
             break
     return address_book
 
 if __name__ == '__main__':
     main()
-

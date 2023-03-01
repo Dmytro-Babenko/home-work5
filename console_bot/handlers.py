@@ -1,4 +1,3 @@
-
 from classes import Phone, Name, Record, AdressBook, NoNumberInContact
 
 
@@ -84,7 +83,3 @@ def good_bye(*_) -> str:
     return output
 
 address_book = AdressBook()
-
-
-
-
