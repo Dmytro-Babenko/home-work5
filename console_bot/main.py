@@ -53,14 +53,12 @@ def main():
     while True:
         inp = input('Write your command: ')
         command, name, new_number, old_number  = parser(inp)
-        print(old_number)
         try:
             hendler = OPERATIONS[command]
         except KeyError:
             print('There are no command')
             continue
         output = hendler(name, new_number, old_number)
-        print(output)
         if output == 'Good bye':
             break
     return contacts

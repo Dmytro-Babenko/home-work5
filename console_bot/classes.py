@@ -63,7 +63,6 @@ class Record():
         numbers = [phone.value for phone in self.phones]
         return numbers
 
-
 class Field():
     def __init__(self, value) -> None:
         self.value = str(value)
