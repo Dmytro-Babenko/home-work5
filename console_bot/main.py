@@ -49,7 +49,7 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
 
 
 def main():
-    contacts = handlers.address_book
+    address_book = handlers.address_book
     while True:
         inp = input('Write your command: ')
         command, name, new_number, old_number  = parser(inp)
@@ -61,7 +61,7 @@ def main():
         output = hendler(name, new_number, old_number)
         if output == 'Good bye':
             break
-    return contacts
+    return address_book
 
 if __name__ == '__main__':
     main()

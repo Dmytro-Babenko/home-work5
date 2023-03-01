@@ -1,5 +1,7 @@
 
 from classes import Phone, Name, Record, AdressBook, NoNumberInContact
+
+
 def input_error(func):
     '''Decorator that handles errors in the handlers'''
     def inner(*args, **kwargs):
@@ -16,13 +18,13 @@ def input_error(func):
         return output
     return inner
 
-def hello(*_):
+def hello(*_) -> str:
     '''Return bots greeting'''
     output = 'How can I help you?'
     return output
 
 @input_error
-def adding(name, number, *_):
+def adding(name: str, number: str, *_) -> str:
     '''If contact is existing add phone to it, else create contact'''
     phone = Phone(number)
     if address_book.data.get(name):
@@ -39,7 +41,7 @@ def adding(name, number, *_):
     return output
 
 @input_error
-def changing(name, new_number, old_number):
+def changing(name: str, new_number: str, old_number: str) -> str:
     '''Change contact in the dictionary'''
     if not new_number or not old_number:
         raise ValueError
@@ -51,14 +53,14 @@ def changing(name, new_number, old_number):
     return output
 
 @input_error
-def get_phones(name, *_):
+def get_phones(name: str, *_) -> str:
     '''Return numbers received contact'''
     record = address_book.data[name]
     numbers = record.get_numbers()
     return numbers
 
 @input_error
-def remove_phone(name, number, *_):
+def remove_phone(name: str, number: str, *_) -> str:
     '''Remove phone from contact phone numbers'''
     record = address_book.data[name]
     record.remove_phone(number)
@@ -66,17 +68,17 @@ def remove_phone(name, number, *_):
     return output
 
 @input_error
-def remove_contact(name, *_):
+def remove_contact(name: str, *_) -> str:
     '''Remove contact from address book'''
     address_book.data.pop(name)
     output = f'Contact {name} is deleted'
     return output
 
-def show_all(*_):
+def show_all(*_) -> str:
     '''Return message with all contacts'''
     return address_book.show_records()
 
-def good_bye(*_):
+def good_bye(*_) -> str:
     '''Return bot goodbye'''
     output = "Good bye"
     return output
