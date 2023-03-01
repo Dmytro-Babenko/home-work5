@@ -1,7 +1,6 @@
 from collections import UserDict
 from functools import reduce
 
-
 class NoNumberInContact(Exception):
     pass
 
