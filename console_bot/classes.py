@@ -65,9 +65,6 @@ class Record():
 
 class AdressBook(UserDict):
     '''Represent adress book with records'''
-    def __init__(self, data={}):
-        self.data = data
-        pass
 
     def add_record(self, record: Record) -> dict[str:Record]:
         '''Add new record to the adress book'''
