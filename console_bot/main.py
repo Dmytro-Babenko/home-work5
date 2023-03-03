@@ -30,18 +30,20 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
         message = message.rstrip()
         number_match = re.search(fr' (\d+)$', message)
         if number_match:
-            number = number_match.group(1).strip()
+            number = number_match.group(1)
             message = re.sub(number, '', message)
+            number = number.strip()
         return message, number
     
     command = ''
-    message = message.strip()
-    command_match = re.search(fr'^{COMMAND_WORDS}', message, re.IGNORECASE)
+    message = message.lstrip()
+    command_match = re.search(fr'^({COMMAND_WORDS})\b', message, re.IGNORECASE)
 
     if command_match:
-        command = command_match.group()
+        command = command_match.group(1)
         message = re.sub(command, '', message)
         command = command.lower()
+        print(command)
 
     message, new_number = get_number(message)
     message, old_number = get_number(message)
