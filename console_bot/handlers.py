@@ -26,9 +26,9 @@ def hello(*_) -> str:
 @input_error
 def adding(name: str, number: str, *_) -> str:
     '''If contact is existing add phone to it, else create contact'''
+    record = address_book.data.get(name)
     phone = Phone(number)
     name = Name(name)
-    record = address_book.data.get(name.value)
     if record:
         record.add_phone(phone)
         output = f'To contact {name.value} add new number: {phone.value}'
