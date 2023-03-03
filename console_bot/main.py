@@ -43,7 +43,6 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
         command = command_match.group(1)
         message = re.sub(command, '', message)
         command = command.lower()
-        print(command)
 
     message, new_number = get_number(message)
     message, old_number = get_number(message)
