@@ -27,7 +27,7 @@ def parser(message: str) -> tuple[str|None, str|None, str|None]:
     def get_number(message: str) -> tuple[str, str]:
         '''Get number as digits at the end'''
         number = ''
-        message = message.strip()
+        message = message.rstrip()
         number_match = re.search(fr' (\d+)$', message)
         if number_match:
             number = number_match.group(1).strip()

@@ -1,4 +1,4 @@
-from classes import Phone, Name, Record, AdressBook, NoNumberInContact
+from classes import Phone, Name, Record, AdressBook, NoNumberInContact, EmptyName, SameNumber, EmptyNumber
 
 def input_error(func):
     '''Decorator that handles errors in the handlers'''
@@ -7,12 +7,14 @@ def input_error(func):
             output = func(*args, **kwargs)
         except KeyError:
             output = 'There no such contact'
-        except ValueError:
-            output = 'There no number in the command'
-        except NameError:
-            output = 'This contact is already in the list'
         except NoNumberInContact:
             output = 'There no such phone number in contact'
+        except EmptyName:
+            output = 'Cant save contact with empty name'
+        except SameNumber:
+            output = 'This number is already in the contact numbers'
+        except EmptyNumber:
+            output = 'There no number in the command'
         return output
     return inner
 
@@ -25,16 +27,12 @@ def hello(*_) -> str:
 def adding(name: str, number: str, *_) -> str:
     '''If contact is existing add phone to it, else create contact'''
     phone = Phone(number)
-    if address_book.data.get(name):
-        if not phone.value:
-            raise ValueError
-        record = address_book.data.get(name)
-        if number in record.get_numbers():
-            raise NameError
+    name = Name(name)
+    record = address_book.data.get(name.value)
+    if record:
         record.add_phone(phone)
-        output = f'To contact {name} add new number: {phone.value}'
+        output = f'To contact {name.value} add new number: {phone.value}'
     else: 
-        name = Name(name)
         record = Record(name, phone)
         address_book.add_record(record)
         output = f'Contact {name.value}: {phone.value} is saved'
@@ -43,12 +41,10 @@ def adding(name: str, number: str, *_) -> str:
 @input_error
 def changing(name: str, new_number: str, old_number: str) -> str:
     '''Change contact in the dictionary'''
-    if not new_number or not old_number:
-        raise ValueError
-    if name not in address_book.data:
-        raise KeyError
-    record = address_book.data.get(name)
-    record.change(old_number, new_number)
+    record = address_book.data[name]
+    new_phone = Phone(new_number)
+    old_phone = Phone(old_number)
+    record.change(old_phone, new_phone)
     output = f'Contact {name} is changed from {old_number} to {new_number}'
     return output
 
@@ -63,7 +59,8 @@ def get_phones(name: str, *_) -> str:
 def remove_phone(name: str, number: str, *_) -> str:
     '''Remove phone from contact phone numbers'''
     record = address_book.data[name]
-    record.remove_phone(number)
+    phone = Phone(number)
+    record.remove_phone(phone)
     output = f'Number {number} is deleted from contact {name}'
     return output
 
